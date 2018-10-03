@@ -10,7 +10,7 @@ FROM debian:stretch-slim
 
 # From https://hub.docker.com/_/debian/
 # Set utf8 support by default 
-ENV LANG=C.UTF-8 SHELL=/bin/bash
+ENV LANG=C.UTF-8 SHELL=/bin/bash DEBIAN_FRONTEND=readline
 
 # Enable directory colors:
 RUN \
@@ -27,6 +27,6 @@ RUN \
 export DEBIAN_FRONTEND=noninteractive && \
 export DEBCONF_NONINTERACTIVE_SEEN=true && \
 apt-get update && \
-apt-get install -y procps apt-utils less nano && \
+apt-get install -y procps apt-utils less nano libterm-readline-perl-perl && \
 apt-get clean
 
