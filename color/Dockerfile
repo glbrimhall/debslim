@@ -27,6 +27,6 @@ RUN \
 export DEBIAN_FRONTEND=noninteractive && \
 export DEBCONF_NONINTERACTIVE_SEEN=true && \
 apt-get update && \
-apt-get install -y procps apt-utils less nano libterm-readline-perl-perl && \
+apt-get install -y procps apt-utils less nano && \
 apt-get clean
 
