@@ -17,5 +17,3 @@ export DEBCONF_NONINTERACTIVE_SEEN=true && \
 apt-get update && \
 apt-get install -y manpages info libterm-readline-perl-perl apt-transport-https curl wget emacs-nox vim lftp openssh-client netcat-openbsd bzip2 p7zip zip && \
 apt-get clean
-
-ENV DEBIAN_FRONTEND=readline

@@ -6,7 +6,6 @@
 
 # Pull base image
 FROM debian:stretch-slim
-#FROM bitnami/minideb:stretch
 
 # From https://hub.docker.com/_/debian/
 # Set utf8 support by default 
