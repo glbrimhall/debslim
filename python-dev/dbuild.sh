@@ -4,8 +4,8 @@ set -x
 NETWORK=${5:-host}
 
 TAG=${4:-stretch}
-CONTAINER=${3:-debslim-python-test}
-REPOSITORY=${2:-debslim-python}
+CONTAINER=${3:-debslim-python-dev-test}
+REPOSITORY=${2:-debslim-python-dev}
 ACTION=${1:-BUILD}
 DAEMONIZE=-d
 
