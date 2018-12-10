@@ -13,5 +13,9 @@ export DEBCONF_NONINTERACTIVE_SEEN=true && \
 apt-get update && \
 apt-get install -y python-pip python-lxml && \ 
 apt-get clean && \
+pip install flake8 && \
+pip install yapf && \
+pip install autoflake && \
+pip install isort && \
 pip install pillow && \
 pip install openpyxl
