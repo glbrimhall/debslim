@@ -3,7 +3,7 @@ set -x
 
 NETWORK=${5:-host}
 
-TAG=${4:-stretch}
+TAG=${4:-bookworm}
 CONTAINER=${3:-debslim-color-test}
 REPOSITORY=${2:-debslim-color}
 ACTION=${1:-BUILD}
