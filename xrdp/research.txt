@@ -1,0 +1,6 @@
+https://github.com/danchitnis/container-xrdp?tab=readme-ov-file
+https://github.com/frxyt/docker-xrdp
+
+
+docker run --rm -p 33890:3389 frxyt/xrdp:xfce
+

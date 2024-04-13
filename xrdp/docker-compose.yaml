@@ -1,0 +1,8 @@
+version: '3.7'
+
+services:
+  ibkr:
+    image: frxyt/xrdp:xfce
+    ports:
+      - "22000:22"
+      - "33890:3389"
