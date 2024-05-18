@@ -4,10 +4,13 @@ set -x
 NETWORK=${5:-host}
 
 TAG=${4:-bookworm}
-CONTAINER=${3:-debslim-color-test}
-REPOSITORY=${2:-debslim-color}
+CONTAINER=${3:-debslim-xrdp-test}
+REPOSITORY=${2:-debslim-xrdp}
 ACTION=${1:-BUILD}
 DAEMONIZE=-d
+TRADE_PORT=4000
+SSH_PORT=22
+RDP_PORT=3389
 
 # Delete test container built from docker file
 docker stop $CONTAINER
@@ -41,8 +44,11 @@ docker run --user root -it --entrypoint /bin/bash \
 else
 
 docker run $DAEMONIZE $DEBUG \
-       --net=$NETWORK \
        --name $CONTAINER \
+       --restart=always \
+  -p 22000:$SSH_PORT \
+  -p $RDP_PORT:$RDP_PORT \
+  -p $TRADE_PORT:$TRADE_PORT \
        $REPOSITORY:$TAG
 
 fi

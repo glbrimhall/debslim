@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 start_xrdp_services() {
     # Preventing xrdp startup failure
     rm -rf /var/run/xrdp-sesman.pid

@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM spire:5000/debslim-color:bookworm
 
 LABEL maintainer="Geoff Brimhall <geoff@glbrimhall.com>"
 
@@ -15,6 +15,7 @@ RUN     DEBIAN_FRONTEND=noninteractive apt-get update \
             tigervnc-standalone-server \
             vim \
             xrdp \
+            firefox-esr \
     &&  apt-get clean -y && apt-get clean -y && apt-get autoclean -y && rm -r /var/lib/apt/lists/*
 
 # Set default environment variables
@@ -24,8 +25,8 @@ ENV FRX_APTGET_DISTUPGRADE= \
     FRX_CMD_START= \
     FRX_LOG_PREFIX_MAXLEN=6 \
     FRX_XRDP_CERT_SUBJ='/C=FX/ST=None/L=None/O=None/OU=None/CN=localhost' \
-    FRX_XRDP_USER_NAME=debian \
-    FRX_XRDP_USER_PASSWORD=ChangeMe \
+    FRX_XRDP_USER_NAME=geoff \
+    FRX_XRDP_USER_PASSWORD=asdf \
     FRX_XRDP_USER_SUDO=1 \
     FRX_XRDP_USER_GID=1000 \
     FRX_XRDP_USER_UID=1000 \
@@ -34,9 +35,11 @@ ENV FRX_APTGET_DISTUPGRADE= \
 
 # Copy assets
 COPY build/log                  /usr/local/bin/frx-log
+COPY build/run-xrdp.sh          /usr/local/bin/run-xrdp.sh
 COPY build/start                /usr/local/sbin/frx-start
 COPY build/supervisord.conf     /etc/supervisor/supervisord.conf
 COPY build/xrdp.ini             /etc/xrdp/xrdp.ini
+COPY build/dot.inputrc          /etc/skel/.inputrc
 
 # Configure installed packages
 RUN     echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/ALL \
@@ -58,15 +61,15 @@ ARG SOURCE_COMMIT
 COPY build/desktop /usr/local/sbin/frx-desktop
 RUN     echo "[frxyt/xrdp:${DOCKER_TAG}] <https://github.com/frxyt/docker-xrdp>" > /frx/version \
     &&  echo "[version: ${SOURCE_BRANCH}@${SOURCE_COMMIT}]" >> /frx/version \
-    &&  /usr/local/sbin/frx-desktop ${DOCKER_TAG}
+    &&  /usr/local/sbin/frx-desktop xfce 
 
 # Copy source files
 COPY Dockerfile LICENSE README.md /frx/
 
 EXPOSE 22
 EXPOSE 3389
+EXPOSE 4000 
 
-VOLUME [ "/home" ]
 WORKDIR /home
 
 CMD [ "/usr/local/sbin/frx-start" ]
