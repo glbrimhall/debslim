@@ -21,7 +21,9 @@ if [ "$ACTION" = "BUILD" ]; then
 docker image rm $REPOSITORY:$TAG
 
 # Create test image from docker file
+sed -e s/#HOSTNAME#/$HOSTNAME/g Dockerfile.template > Dockerfile
 docker build --rm -t $REPOSITORY:$TAG .
+rm Dockerfile
 
 ACTION=DEBUG
 
