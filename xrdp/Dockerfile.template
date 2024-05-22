@@ -1,4 +1,4 @@
-FROM spire:5000/debslim-color:bookworm
+FROM #HOSTNAME#:5000/debslim-color:bookworm
 
 LABEL maintainer="Geoff Brimhall <geoff@glbrimhall.com>"
 
