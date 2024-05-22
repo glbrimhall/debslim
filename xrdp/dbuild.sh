@@ -49,6 +49,7 @@ docker run $DAEMONIZE $DEBUG \
   -p 22000:$SSH_PORT \
   -p $RDP_PORT:$RDP_PORT \
   -p $TRADE_PORT:$TRADE_PORT \
-       $REPOSITORY:$TAG
+     $REPOSITORY:$TAG
 
 fi
+

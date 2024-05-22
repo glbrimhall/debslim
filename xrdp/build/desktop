@@ -39,7 +39,7 @@ case $1 in
         echo "[OK]";;
     *xfce*)
         echo "Installing Xfce ..."
-        DEBIAN_FRONTEND=noninteractive apt-get upgrade -y --fix-missing --no-install-recommends task-xfce-desktop
+        DEBIAN_FRONTEND=noninteractive apt-get upgrade -y --fix-missing --no-install-recommends task-xfce-desktop xfce4-terminal
         echo "startxfce4" > /etc/skel/.xsession
         echo "[OK]";;
 esac
