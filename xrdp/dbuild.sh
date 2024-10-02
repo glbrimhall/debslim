@@ -6,9 +6,9 @@ NETWORK=${5:-host}
 TAG=${4:-bookworm}
 CONTAINER=${3:-debslim-xrdp-test}
 REPOSITORY=${2:-debslim-xrdp}
-ACTION=${1:-BUILD}
+ARG1=${1:-run}
+ACTION=${ARG1^^}
 DAEMONIZE=-d
-TRADE_PORT=4000
 SSH_PORT=22
 RDP_PORT=3389
 
@@ -25,20 +25,15 @@ sed -e s/#HOSTNAME#/$HOSTNAME/g Dockerfile.template > Dockerfile
 docker build --rm -t $REPOSITORY:$TAG .
 rm Dockerfile
 
-ACTION=DEBUG
+ACTION=COMPOSE
 
 fi
-
-if [ "$ACTION" = "DEBUG" ]; then
-    DAEMONIZE=""
-    DEBUG="--user root -it --entrypoint /bin/bash"
-fi
-
-NETWORK=host
 
 if [ "$ACTION" = "COMPOSE" ]; then
 
-docker run --user root -it --entrypoint /bin/bash \
+NETWORK=host
+
+docker run --rm --user root -it --entrypoint /bin/bash \
        --net=$NETWORK \
        --name $CONTAINER \
        $REPOSITORY:$TAG
@@ -50,7 +45,6 @@ docker run $DAEMONIZE $DEBUG \
        --restart=always \
   -p 22000:$SSH_PORT \
   -p $RDP_PORT:$RDP_PORT \
-  -p $TRADE_PORT:$TRADE_PORT \
      $REPOSITORY:$TAG
 
 fi
