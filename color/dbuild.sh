@@ -33,7 +33,10 @@ NETWORK=host
 
 if [ "$ACTION" = "COMPOSE" ]; then
 
-docker run --user root -it --entrypoint /bin/bash \
+mkdir /home/geoff/ibkr
+
+docker run --rm --user root -it --entrypoint /bin/bash \
+       -v /home/geoff/ibkr:/home/ibkr \
        --net=$NETWORK \
        --name $CONTAINER \
        $REPOSITORY:$TAG
