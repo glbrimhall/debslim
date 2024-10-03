@@ -1,12 +1,14 @@
 #!/bin/bash
 set -x
+#shopt -s nocasematch
 
 NETWORK=${5:-host}
 
 TAG=${4:-bookworm}
 CONTAINER=${3:-debslim-color-test}
 REPOSITORY=${2:-debslim-color}
-ACTION=${1:-BUILD}
+ARG1=${1:-run}
+ACTION=${ARG1^^}
 DAEMONIZE=-d
 
 # Delete test container built from docker file
