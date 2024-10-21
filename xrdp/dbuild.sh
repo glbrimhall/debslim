@@ -22,7 +22,7 @@ docker image rm $REPOSITORY:$TAG
 
 # Create test image from docker file
 sed -e s/#HOSTNAME#/$HOSTNAME/g Dockerfile.template > Dockerfile
-docker build --rm -t $REPOSITORY:$TAG .
+docker build --progress=plain -t $REPOSITORY:$TAG -f Dockerfile .
 rm Dockerfile
 
 ACTION=COMPOSE

@@ -34,12 +34,8 @@ ENV FRX_APTGET_DISTUPGRADE= \
     TZ=Etc/UTC
 
 # Copy assets
-COPY build/log                  /usr/local/bin/frx-log
-COPY build/run-xrdp.sh          /usr/local/bin/run-xrdp.sh
-COPY build/start                /usr/local/sbin/frx-start
-COPY build/supervisord.conf     /etc/supervisor/supervisord.conf
-COPY build/xrdp.ini             /etc/xrdp/xrdp.ini
-COPY build/dot.inputrc          /etc/skel/.inputrc
+COPY build/local/   /usr/local/
+COPY build/etc/     /etc/
 
 # Configure installed packages
 RUN     echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/ALL \
@@ -58,10 +54,10 @@ RUN     echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/ALL \
 ARG DOCKER_TAG
 ARG SOURCE_BRANCH
 ARG SOURCE_COMMIT
-COPY build/desktop /usr/local/sbin/frx-desktop
 RUN     echo "[frxyt/xrdp:${DOCKER_TAG}] <https://github.com/frxyt/docker-xrdp>" > /frx/version \
     &&  echo "[version: ${SOURCE_BRANCH}@${SOURCE_COMMIT}]" >> /frx/version \
-    &&  /usr/local/sbin/frx-desktop xfce 
+    &&  /usr/local/bin/frx-desktop xfce \
+    &&  /usr/local/bin/frx-setup
 
 # Copy source files
 COPY Dockerfile LICENSE README.md /frx/

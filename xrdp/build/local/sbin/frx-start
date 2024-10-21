@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Generate server keys
+[[ ! -e /etc/xrdp/rsakeys.ini ]] \
+    && echo "Generating XRDP RSA keys ..." \
+    && xrdp-keygen xrdp /etc/xrdp/rsakeys.ini \
+    && chown xrdp:xrdp /etc/xrdp/rsakeys.ini \
+    && chmod 400 /etc/xrdp/rsakeys.ini
+[[ ! -e /etc/xrdp/cert.pem || ! -e /etc/xrdp/key.pem ]] \
+    && echo "Generating XRDP RSA certificate ..." \
+    && openssl req -x509 -newkey rsa:4096 -nodes -keyout /etc/xrdp/key.pem -out /etc/xrdp/cert.pem -days 3650 -subj "${FRX_XRDP_CERT_SUBJ}" \
+    && chown xrdp:xrdp /etc/xrdp/cert.pem /etc/xrdp/key.pem \
+    && chmod 400 /etc/xrdp/cert.pem /etc/xrdp/key.pem
+[[ ! -e /etc/ssh/ssh_host_ecdsa_key || ! -e /etc/ssh/ssh_host_ecdsa_key.pub ]] \
+    && echo "Generating SSH host ECDSA key ..." \
+    && ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key < /dev/null \
+    && chmod 400 /etc/ssh/ssh_host_ecdsa_key && chmod 444 /etc/ssh/ssh_host_ecdsa_key.pub
+[[ ! -e /etc/ssh/ssh_host_ed25519_key || ! -e /etc/ssh/ssh_host_ed25519_key.pub ]] \
+    && echo "Generating SSH host ED25519 key ..." \
+    && ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key < /dev/null \
+    && chmod 400 /etc/ssh/ssh_host_ed25519_key && chmod 444 /etc/ssh/ssh_host_ed25519_key.pub
+[[ ! -e /etc/ssh/ssh_host_rsa_key || ! -e /etc/ssh/ssh_host_rsa_key.pub ]] \
+    && echo "Generating SSH host RSA key ..." \
+    && ssh-keygen -t rsa -b 4096 -f /etc/ssh/ssh_host_rsa_key < /dev/null \
+    && chmod 400 /etc/ssh/ssh_host_rsa_key && chmod 444 /etc/ssh/ssh_host_rsa_key.pub
+unset FRX_XRDP_CERT_SUBJ
+
+# Execute requested command if needed
+if [ -n "${FRX_CMD_START}" ]; then
+    echo "Executing command : '${FRX_CMD_START}' ..."
+    source <(echo "${FRX_CMD_START}")
+    unset FRX_CMD_START
+fi
+
+# Execute customs scripts if needed
+for exe in $(find /frx/entrypoint.d -executable ! -type d | sort); do
+    echo "Executing entrypoint : '${exe}' ..."
+	/bin/bash ${exe}
+done
+
+# Start supervisor
+/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
