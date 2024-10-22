@@ -23,6 +23,10 @@ unset FRX_APTGET_UPGRADE FRX_APTGET_INSTALL
 
 # Create user if it doesn't exist
 if ! id -u ${FRX_XRDP_USER_NAME} > /dev/null 2>&1; then
+    # Copy default desktop icons if needed
+    [[ "${FRX_XRDP_USER_COPY_SA}" == '1' ]] \
+        && mkdir -p /etc/skel/Desktop \
+        && cp /usr/share/applications/*.desktop /etc/skel/Desktop \
     echo -n "Creating user '${FRX_XRDP_USER_NAME}' ... "
     # Create user
     /usr/sbin/groupadd -g ${FRX_XRDP_USER_GID} ${FRX_XRDP_USER_NAME}
@@ -33,11 +37,6 @@ if ! id -u ${FRX_XRDP_USER_NAME} > /dev/null 2>&1; then
     echo ${FRX_XRDP_USER_NAME}:${FRX_XRDP_USER_PASSWORD} | /usr/sbin/chpasswd
     # Add user to sudo if needed
     [[ "${FRX_XRDP_USER_SUDO}" == '1' ]] && /usr/sbin/adduser ${FRX_XRDP_USER_NAME} sudo > /dev/null
-    # Copy default desktop icons if needed
-    [[ "${FRX_XRDP_USER_COPY_SA}" == '1' ]] \
-        && mkdir -p /home/${FRX_XRDP_USER_NAME}/Desktop \
-        && cp /usr/share/applications/*.desktop /home/${FRX_XRDP_USER_NAME}/Desktop \
-        && chown ${FRX_XRDP_USER_UID}:${FRX_XRDP_USER_GID} -R /home/${FRX_XRDP_USER_NAME}/Desktop
     echo "[OK]"
 fi
 

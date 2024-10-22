@@ -32,7 +32,7 @@ ENV FRX_APTGET_DISTUPGRADE= \
     FRX_XRDP_USER_GID=1000 \
     FRX_XRDP_USER_UID=1000 \
     FRX_XRDP_USER_COPY_SA=0 \
-    TZ=Etc/UTC
+    TZ=America/Los_Angeles
 
 # Copy assets
 COPY build/local/   /usr/local/
@@ -51,7 +51,7 @@ RUN     echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/ALL \
     &&  rm -f /etc/xrdp/cert.pem /etc/xrdp/key.pem /etc/xrdp/rsakeys.ini \
     &&  rm -f /etc/ssh/ssh_host_*
 
-# Prepare default desktop if needed & version information
+# Prepare default desktop (xfce), user, version information
 ARG DOCKER_TAG
 ARG SOURCE_BRANCH
 ARG SOURCE_COMMIT
