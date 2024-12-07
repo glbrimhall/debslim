@@ -22,8 +22,8 @@ docker image rm $REPOSITORY:$TAG
 
 # Create test image from docker file
 sed -e s/#HOSTNAME#/$HOSTNAME/g Dockerfile.template > Dockerfile
-#CACHE="--no-cache"
-docker build $CACHE --progress=plain -t $REPOSITORY:$TAG -f Dockerfile .
+#NOCACHE="--no-cache"
+docker build $NOCACHE --progress=plain -t $REPOSITORY:$TAG -f Dockerfile .
 rm Dockerfile
 
 ACTION=COMPOSE
