@@ -20,7 +20,8 @@ if [ "$ACTION" = "BUILD" ]; then
 docker image rm $REPOSITORY:$TAG
 
 # Create test image from docker file
-docker build --rm -t $REPOSITORY:$TAG .
+#CACHE="--no-cache"
+docker build $CACHE --rm -t $REPOSITORY:$TAG .
 
 ACTION=DEBUG
 
