@@ -4,7 +4,7 @@ set -x
 
 NETWORK=${5:-host}
 
-TAG=${4:-bookworm}
+TAG=${4:-trixie}
 CONTAINER=${3:-debslim-color-test}
 REPOSITORY=${2:-debslim-color}
 ARG1=${1:-run}
@@ -21,7 +21,7 @@ docker image rm $REPOSITORY:$TAG
 
 # Create test image from docker file
 #NOCACHE="--no-cache"
-docker build $NOCACHE --rm -t $REPOSITORY:$TAG .
+docker build $NOCACHE --rm -t $REPOSITORY:$TAG -f Dockerfile .
 
 ACTION=DEBUG
 

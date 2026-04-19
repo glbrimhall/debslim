@@ -3,7 +3,7 @@ set -x
 
 NETWORK=${5:-host}
 
-TAG=${4:-bookworm}
+TAG=${4:-trixie}
 CONTAINER=${3:-debslim-xrdp-test}
 REPOSITORY=${2:-debslim-xrdp}
 ARG1=${1:-run}
